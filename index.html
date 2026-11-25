@@ -1,0 +1,1259 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Little Secret Diary ♡</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Quicksand:wght@400;500;600;700&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --pink: #f5c5d2;
+    --dark: #a66d82;
+    --cream: #fffaf2;
+    --blue: #dcecf8;
+    --yellow: #fff0bc;
+    --purple: #e9dff6;
+    --ink: #765b62;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #fff0f2;
+    color: var(--ink);
+    font-family: 'Quicksand', sans-serif;
+    min-height: 100vh;
+}
+
+button, input, textarea, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+}
+
+.hidden { display: none !important; }
+
+/* DECORATIONS */
+
+.floating {
+    position: fixed;
+    font-size: 35px;
+    color: #e5a7ba;
+    animation: float 4s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.f1 { top: 10%; left: 7%; }
+.f2 { top: 70%; right: 7%; animation-delay: 1s; }
+.f3 { bottom: 8%; left: 12%; animation-delay: 2s; }
+
+@keyframes float {
+    50% { transform: translateY(-15px) rotate(10deg); }
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* COVER */
+
+.screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+}
+
+.cover {
+    width: min(440px, 100%);
+    min-height: 570px;
+    background: linear-gradient(145deg, #f7cbd8, #eeb2c7);
+    border: 8px double #fce6eb;
+    border-radius: 12px 28px 28px 12px;
+    box-shadow: 15px 18px 0 #dca2b5, 25px 30px 40px #c68da366;
+    text-align: center;
+    padding: 60px 30px 35px;
+    position: relative;
+    color: #86566c;
+    animation: appear 1s ease;
+}
+
+.cover::before {
+    content: "";
+    position: absolute;
+    left: 15px;
+    top: 0;
+    height: 100%;
+    border-left: 2px solid #ffffff80;
+}
+
+.cover h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 54px;
+    line-height: 1.1;
+    margin: 25px 0;
+}
+
+.cover-small {
+    letter-spacing: 3px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.cover-bow {
+    font-size: 65px;
+    color: white;
+}
+
+.cover-flower {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    font-size: 35px;
+}
+
+.cover-description {
+    font-family: 'Caveat', cursive;
+    font-size: 23px;
+}
+
+.cover button {
+    background: #fff9f5;
+    color: #b66f87;
+    padding: 14px 32px;
+    border-radius: 30px;
+    margin-top: 30px;
+    font-weight: 700;
+    transition: .3s;
+}
+
+.cover button:hover { transform: translateY(-4px); }
+
+/* LOCK */
+
+.lock-card {
+    background: #fffaf5;
+    padding: 45px 30px;
+    border-radius: 25px;
+    box-shadow: 0 15px 40px #bb829d22;
+    text-align: center;
+    width: min(420px, 100%);
+    animation: appear .5s ease;
+}
+
+.lock-icon { font-size: 55px; }
+
+.lock-card h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 34px;
+    margin: 15px;
+}
+
+.lock-description {
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.password-digits {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 30px 0 10px;
+}
+
+.password-digits input {
+    width: 43px;
+    height: 52px;
+    text-align: center;
+    font-size: 23px;
+    border: 1px solid #efc8d5;
+    border-radius: 10px;
+    background: #fff1f4;
+    color: #a66d82;
+}
+
+.unlock-btn {
+    background: #e8b9c9;
+    color: white;
+    padding: 13px 30px;
+    border-radius: 25px;
+    margin-top: 15px;
+}
+
+.back-btn {
+    display: block;
+    margin: 20px auto 0;
+    background: none;
+    color: #a66d82;
+    font-size: 12px;
+}
+
+#lockMessage {
+    min-height: 20px;
+    font-size: 12px;
+    color: #d47c99;
+}
+
+/* MAIN DIARY */
+
+#diary {
+    min-height: 100vh;
+    background: #fff5f3;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.topbar {
+    max-width: 1250px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    color: #a66d82;
+    font-size: 13px;
+}
+
+.brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+}
+
+.layout {
+    max-width: 1250px;
+    margin: 15px auto;
+    display: grid;
+    grid-template-columns: 235px 1fr;
+    background: #fffdf8;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px #a67d7020;
+    min-height: 750px;
+}
+
+.sidebar {
+    background: #f9e3e8;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-family: 'DM Serif Display', serif;
+    margin: 10px;
+}
+
+.sidebar p {
+    text-align: center;
+    font-size: 11px;
+    margin-bottom: 30px;
+}
+
+.sidebar nav {
+    display: grid;
+    gap: 9px;
+}
+
+.nav-item {
+    text-align: left;
+    padding: 13px;
+    border-radius: 12px;
+    background: transparent;
+    color: #8c6570;
+    font-size: 12px;
+    transition: .3s;
+}
+
+.nav-item:hover, .nav-item.active {
+    background: #fff9f6;
+    color: #c47c96;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    text-align: center;
+    font-size: 11px;
+}
+
+.sidebar-bottom button {
+    margin-top: 15px;
+    background: none;
+    color: #a66d82;
+    font-weight: 700;
+}
+
+.content {
+    padding: 40px;
+    background-color: #fffdf8;
+    background-image: radial-gradient(#e9d8cc55 .7px, transparent .7px);
+    background-size: 16px 16px;
+    min-width: 0;
+}
+
+.page {
+    display: none;
+    animation: appear .5s ease;
+}
+
+.page.active { display: block; }
+
+.eyebrow {
+    letter-spacing: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #a66d82;
+}
+
+.page-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 5vw, 46px);
+    margin: 15px 0;
+    color: #906878;
+}
+
+.page-subtitle {
+    font-size: 12px;
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+/* HOME */
+
+.banner {
+    background: linear-gradient(120deg, #f8dce5, #e3edfa);
+    padding: 40px 30px;
+    border-radius: 18px;
+    position: relative;
+    margin-bottom: 35px;
+}
+
+.banner span {
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.banner h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 43px;
+    margin: 15px 0;
+}
+
+.banner p { font-size: 12px; }
+
+.banner-bow {
+    position: absolute;
+    right: 25px;
+    bottom: 20px;
+    font-size: 55px;
+}
+
+.section-title {
+    font-family: 'DM Serif Display', serif;
+    margin-bottom: 20px;
+}
+
+.collection-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.collection {
+    border-radius: 16px;
+    padding: 23px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.collection:hover { transform: translateY(-5px) rotate(-1deg); }
+.collection span { font-size: 27px; }
+.collection h3 { margin: 10px 0 5px; font-family: 'DM Serif Display', serif; }
+.collection p { font-size: 11px; }
+
+.pink { background: #f9e0e6; }
+.blue { background: #e0edf7; }
+.yellow { background: #fff1cc; }
+.purple { background: #eee5f8; }
+
+.quote {
+    background: #f5eaf2;
+    padding: 25px;
+    margin-top: 30px;
+    border-radius: 15px;
+    text-align: center;
+    font-family: 'Caveat', cursive;
+    font-size: 25px;
+}
+
+/* FORMS */
+
+.form {
+    display: grid;
+    gap: 12px;
+    background: #fff6f4;
+    padding: 20px;
+    border-radius: 16px;
+    margin: 20px 0;
+}
+
+input, textarea, select {
+    width: 100%;
+    border: 1px solid #efdce0;
+    border-radius: 10px;
+    padding: 12px;
+    background: #fffdfb;
+    color: #765b62;
+    outline: none;
+}
+
+input:focus, textarea:focus {
+    border-color: #dc9db3;
+}
+
+textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.form button {
+    background: #e8b9c9;
+    color: white;
+    padding: 13px;
+    border-radius: 12px;
+    font-weight: 700;
+}
+
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 18px;
+    margin-top: 25px;
+}
+
+.memory-card {
+    background: white;
+    padding: 12px;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px #00000010;
+    transform: rotate(-1deg);
+    min-width: 0;
+}
+
+.memory-card:nth-child(even) { transform: rotate(1deg); }
+
+.memory-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.memory-card h3 {
+    font-family: 'Caveat', cursive;
+    font-size: 23px;
+    margin: 12px 0 5px;
+}
+
+.memory-card p {
+    font-size: 11px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    overflow-wrap: anywhere;
+}
+
+.delete-btn {
+    color: #d17d94;
+    background: none;
+    font-size: 11px;
+}
+
+/* ABOUT */
+
+.about-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 25px;
+    margin-top: 25px;
+}
+
+.upload-box {
+    background: #f9e8eb;
+    padding: 15px;
+    text-align: center;
+    border-radius: 15px;
+    align-self: start;
+}
+
+.profile-preview {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.upload-button {
+    display: inline-block;
+    background: #e8b9c9;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 12px;
+}
+
+/* JOURNAL */
+
+.journal-entry {
+    background: #fff5f1;
+    padding: 20px;
+    margin-top: 15px;
+    border-left: 4px solid #eab5c6;
+    border-radius: 10px;
+}
+
+.journal-entry h3 {
+    font-family: 'DM Serif Display', serif;
+    margin: 8px 0;
+}
+
+.journal-entry p {
+    font-size: 13px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+/* ALBUM */
+
+.album-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.album-item {
+    background: white;
+    padding: 10px 10px 25px;
+    box-shadow: 0 5px 15px #00000012;
+    transform: rotate(-2deg);
+}
+
+.album-item:nth-child(even) { transform: rotate(2deg); }
+
+.album-item img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+}
+
+/* DREAM BOARD */
+
+.dream-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.dream-card {
+    padding: 25px;
+    border-radius: 15px;
+    background: #f5e8f4;
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.book-footer {
+    border-top: 1px dashed #e9c9d1;
+    margin-top: 50px;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Caveat', cursive;
+    font-size: 16px;
+}
+
+@media(max-width:760px) {
+    #diary { padding: 8px; }
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { padding: 15px; }
+    .sidebar nav {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
+    .nav-item { white-space: nowrap; }
+    .sidebar-bottom { display: none; }
+    .content { padding: 22px 15px; }
+    .about-layout { grid-template-columns: 1fr; }
+    .upload-box { max-width: 230px; margin: auto; }
+    .book-footer { flex-direction: column; gap: 8px; }
+    .banner h1 { font-size: 34px; }
+}
+
+@media(max-width:400px) {
+    .password-digits { gap: 5px; }
+    .password-digits input { width: 38px; }
+    .collection-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="floating f1">୨ৎ</div>
+<div class="floating f2">♡</div>
+<div class="floating f3">✿</div>
+
+<!-- COVER -->
+<section id="cover" class="screen">
+    <div class="cover">
+        <div class="cover-flower">✿</div>
+        <p class="cover-small">A LITTLE PLACE FOR MY LITTLE WORLD</p>
+        <div class="cover-bow">୨୧</div>
+        <h1>My Little<br>Secret Diary</h1>
+        <p class="cover-description">memories, dreams & everything in between.</p>
+        <button onclick="openDiary()">Open my diary ♡</button>
+        <p style="margin-top:40px;font-family:Caveat;font-size:18px">Made with love, just for me</p>
+    </div>
+</section>
+
+<!-- LOCK -->
+<section id="lockScreen" class="screen hidden">
+    <div class="lock-card">
+        <div class="lock-icon">🔐</div>
+        <p class="eyebrow">A LITTLE SECRET</p>
+        <h2>Before you enter...</h2>
+        <p class="lock-description">This little book is only for its owner. Enter your secret code ♡</p>
+
+        <div class="password-digits">
+            <input type="password" maxlength="1" inputmode="numeric">
+            <input type="password" maxlength="1" inputmode="numeric">
+            <input type="password" maxlength="1" inputmode="numeric">
+            <input type="password" maxlength="1" inputmode="numeric">
+            <input type="password" maxlength="1" inputmode="numeric">
+            <input type="password" maxlength="1" inputmode="numeric">
+        </div>
+
+        <p id="lockMessage"></p>
+        <button class="unlock-btn" onclick="unlockDiary()">Unlock my diary ♡</button>
+        <button class="back-btn" onclick="backToCover()">← Back to cover</button>
+    </div>
+</section>
+
+<!-- DIARY -->
+<section id="diary" class="hidden">
+<header class="topbar">
+    <div><span>✿</span> <span class="brand">my little diary</span></div>
+    <div id="todayDate"></div>
+</header>
+
+<main class="layout">
+<aside class="sidebar">
+    <div style="text-align:center;font-size:42px">🎀</div>
+    <h2>Dear Diary,</h2>
+    <p>Welcome to my little world.</p>
+
+    <nav>
+        <button class="nav-item active" onclick="showPage('home',this)">🏠 Home</button>
+        <button class="nav-item" onclick="showPage('about',this)">♡ About Me</button>
+        <button class="nav-item" onclick="showPage('people',this)">👭 My People</button>
+        <button class="nav-item" onclick="showPage('places',this)">🌷 My Places</button>
+        <button class="nav-item" onclick="showPage('moments',this)">📖 Little Moments</button>
+        <button class="nav-item" onclick="showPage('album',this)">📸 Photo Album</button>
+        <button class="nav-item" onclick="showPage('dreams',this)">⭐ Dream Board</button>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <p>♡ always keep dreaming ♡</p>
+        <button onclick="backToCover()">Close diary ↗</button>
+    </div>
+</aside>
+
+<div class="content">
+
+<!-- HOME -->
+<section id="home" class="page active">
+    <div class="banner">
+        <span>✿ A PLACE TO KEEP MY MEMORIES ✿</span>
+        <h1>Hello, lovely!</h1>
+        <p>Every little moment deserves a place in this book.</p>
+        <div class="banner-bow">୨ৎ</div>
+    </div>
+
+    <h2 class="section-title">My little collections ♡</h2>
+
+    <div class="collection-grid">
+        <div class="collection pink" onclick="showPage('people')">
+            <span>👭</span><h3>My People</h3><p>People I treasure</p>
+        </div>
+        <div class="collection blue" onclick="showPage('places')">
+            <span>🌸</span><h3>My Places</h3><p>Places I adore</p>
+        </div>
+        <div class="collection yellow" onclick="showPage('album')">
+            <span>📸</span><h3>Photographs</h3><p>Little captured moments</p>
+        </div>
+        <div class="collection purple" onclick="showPage('dreams')">
+            <span>⭐</span><h3>My Dreams</h3><p>Things I wish for</p>
+        </div>
+    </div>
+
+    <div class="quote">"Collect moments, not just things." ♡</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="page">
+    <p class="eyebrow">CHAPTER 01</p>
+    <h1 class="page-title">A little about me ♡</h1>
+
+    <div class="about-layout">
+        <div class="upload-box">
+            <img id="profilePreview" class="profile-preview hidden">
+            <div id="profilePlaceholder" style="padding:40px 0;font-size:25px">🎀<br>My picture</div>
+            <label class="upload-button">Add my photo
+                <input type="file" accept="image/*" onchange="uploadProfile(event)" hidden>
+            </label>
+        </div>
+
+        <div class="form">
+            <label>My name</label><input id="myName" placeholder="Your name...">
+            <label>My birthday</label><input id="myBirthday" type="date">
+            <label>My favorite color</label><input id="myColor" placeholder="Pink, blue, lavender...">
+            <label>My favorite song</label><input id="mySong" placeholder="A song I love...">
+            <label>Little things about me</label><textarea id="myFacts" placeholder="Tell my story here..."></textarea>
+            <button onclick="saveAbout()">Save my page ♡</button>
+        </div>
+    </div>
+</section>
+
+<!-- PEOPLE -->
+<section id="people" class="page">
+    <p class="eyebrow">CHAPTER 02</p>
+    <h1 class="page-title">My favorite people ♡</h1>
+    <p class="page-subtitle">A little corner for the people I love.</p>
+    <div class="form">
+        <input id="personName" placeholder="Their name...">
+        <input id="personNote" placeholder="Why are they special?">
+        <input id="personPhoto" type="file" accept="image/*">
+        <button onclick="addMemory('people')">+ Add person</button>
+    </div>
+    <div id="peopleList" class="memory-grid"></div>
+</section>
+
+<!-- PLACES -->
+<section id="places" class="page">
+    <p class="eyebrow">CHAPTER 03</p>
+    <h1 class="page-title">Places I adore 🌷</h1>
+    <p class="page-subtitle">Places that hold a little piece of my heart.</p>
+    <div class="form">
+        <input id="placeName" placeholder="Place name...">
+        <input id="placeNote" placeholder="Tell me about this place...">
+        <input id="placePhoto" type="file" accept="image/*">
+        <button onclick="addMemory('places')">+ Add place</button>
+    </div>
+    <div id="placesList" class="memory-grid"></div>
+</section>
+
+<!-- MOMENTS -->
+<section id="moments" class="page">
+    <p class="eyebrow">CHAPTER 04</p>
+    <h1 class="page-title">Little moments 📖</h1>
+    <p class="page-subtitle">Dear diary, today I want to remember...</p>
+    <div class="form">
+        <input id="momentTitle" placeholder="Today's little story...">
+        <input id="momentDate" type="date">
+        <select id="momentMood">
+            <option>♡ Happy</option>
+            <option>☁ Sad</option>
+            <option>✿ Excited</option>
+            <option>☆ Grateful</option>
+            <option>🌷 Peaceful</option>
+        </select>
+        <textarea id="momentText" placeholder="Write everything here..."></textarea>
+        <button onclick="addMoment()">Save my memory ♡</button>
+    </div>
+    <div id="momentsList"></div>
+</section>
+
+<!-- ALBUM -->
+<section id="album" class="page">
+    <p class="eyebrow">CHAPTER 05</p>
+    <h1 class="page-title">My photo album 📸</h1>
+    <p class="page-subtitle">A thousand little memories in pictures.</p>
+    <label class="upload-button">+ Add photographs
+        <input type="file" accept="image/*" multiple onchange="uploadAlbum(event)" hidden>
+    </label>
+    <div id="albumGrid" class="album-grid" style="margin-top:25px"></div>
+</section>
+
+<!-- DREAMS -->
+<section id="dreams" class="page">
+    <p class="eyebrow">CHAPTER 06</p>
+    <h1 class="page-title">My dream board ⭐</h1>
+    <p class="page-subtitle">Dream big, little one.</p>
+    <div class="form">
+        <input id="dreamText" placeholder="A dream I want to achieve...">
+        <button onclick="addDream()">+ Add my dream</button>
+    </div>
+    <div id="dreamList" class="dream-grid"></div>
+</section>
+
+<footer class="book-footer">
+    <span>୨ৎ Made with love</span>
+    <span>My little secret diary ♡</span>
+</footer>
+
+</div>
+</main>
+</section>
+
+<script>
+const PASSWORD = "889988";
+const $ = id => document.getElementById(id);
+
+let db;
+
+const data = {
+    people: [],
+    places: [],
+    moments: [],
+    album: [],
+    dreams: [],
+    about: {}
+};
+
+// OPEN AND LOCK
+function openDiary() {
+    $("cover").classList.add("hidden");
+    $("lockScreen").classList.remove("hidden");
+    document.querySelector(".password-digits input").focus();
+}
+
+function backToCover() {
+    $("lockScreen").classList.add("hidden");
+    $("diary").classList.add("hidden");
+    $("cover").classList.remove("hidden");
+}
+
+const digitInputs = document.querySelectorAll(".password-digits input");
+
+digitInputs.forEach((input, index) => {
+    input.addEventListener("input", () => {
+        input.value = input.value.replace(/\D/g, "").slice(0,1);
+        if(input.value && index < 5) digitInputs[index+1].focus();
+    });
+
+    input.addEventListener("keydown", e => {
+        if(e.key === "Backspace" && !input.value && index > 0)
+            digitInputs[index-1].focus();
+        if(e.key === "Enter") unlockDiary();
+    });
+});
+
+function unlockDiary() {
+    const code = [...digitInputs].map(x => x.value).join("");
+
+    if(code === PASSWORD) {
+        $("lockMessage").textContent = "Welcome back, lovely! ♡";
+
+        setTimeout(() => {
+            $("lockScreen").classList.add("hidden");
+            $("diary").classList.remove("hidden");
+            digitInputs.forEach(x => x.value = "");
+            showPage("home");
+            updateDate();
+            loadAll();
+        }, 600);
+    } else {
+        $("lockMessage").textContent = "Oopsie! That's not the right secret code ♡";
+        digitInputs.forEach(x => x.value = "");
+        digitInputs[0].focus();
+    }
+}
+
+// NAVIGATION
+function showPage(page, button) {
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+    $(page).classList.add("active");
+
+    document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
+    if(button) button.classList.add("active");
+    else {
+        const nav = [...document.querySelectorAll(".nav-item")];
+        const index = ["home","about","people","places","moments","album","dreams"].indexOf(page);
+        if(nav[index]) nav[index].classList.add("active");
+    }
+}
+
+function updateDate() {
+    $("todayDate").textContent = new Date().toLocaleDateString("en-US", {
+        weekday:"long", month:"long", day:"numeric", year:"numeric"
+    });
+}
+
+// INDEXED DB FOR PHOTOS
+function openDatabase() {
+    return new Promise((resolve,reject) => {
+        const request = indexedDB.open("LittleSecretDiary",1);
+
+        request.onupgradeneeded = e => {
+            const database = e.target.result;
+            if(!database.objectStoreNames.contains("photos"))
+                database.createObjectStore("photos",{keyPath:"id",autoIncrement:true});
+        };
+
+        request.onsuccess = () => { db = request.result; resolve(db); };
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function savePhoto(file) {
+    return new Promise((resolve,reject) => {
+        const request = db.transaction("photos","readwrite")
+            .objectStore("photos").add({file});
+
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function getPhoto(id) {
+    return new Promise((resolve,reject) => {
+        const request = db.transaction("photos","readonly")
+            .objectStore("photos").get(id);
+
+        request.onsuccess = () => resolve(request.result?.file || null);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+function deletePhoto(id) {
+    if(!id) return;
+    db.transaction("photos","readwrite").objectStore("photos").delete(id);
+}
+
+function saveData(key) {
+    localStorage.setItem("diary_"+key,JSON.stringify(data[key]));
+}
+
+function loadAll() {
+    Object.keys(data).forEach(key => {
+        const saved = localStorage.getItem("diary_"+key);
+        if(saved) data[key] = JSON.parse(saved);
+    });
+
+    renderAll();
+    fillAbout();
+}
+
+// ABOUT
+async function uploadProfile(event) {
+    const file = event.target.files[0];
+    if(!file) return;
+
+    try {
+        const oldId = data.about.photoId;
+        const id = await savePhoto(file);
+
+        if(oldId) deletePhoto(oldId);
+
+        data.about.photoId = id;
+        saveData("about");
+
+        $("profilePreview").src = URL.createObjectURL(file);
+        $("profilePreview").classList.remove("hidden");
+        $("profilePlaceholder").classList.add("hidden");
+    } catch(error) {
+        alert("Couldn't save your photo. Please try again.");
+    }
+}
+
+function saveAbout() {
+    data.about = {
+        ...data.about,
+        name:$("myName").value,
+        birthday:$("myBirthday").value,
+        color:$("myColor").value,
+        song:$("mySong").value,
+        facts:$("myFacts").value
+    };
+
+    saveData("about");
+    alert("Your little page has been saved! ♡");
+}
+
+function fillAbout() {
+    const a = data.about;
+
+    $("myName").value = a.name || "";
+    $("myBirthday").value = a.birthday || "";
+    $("myColor").value = a.color || "";
+    $("mySong").value = a.song || "";
+    $("myFacts").value = a.facts || "";
+
+    if(a.photoId) {
+        getPhoto(a.photoId).then(file => {
+            if(file) {
+                $("profilePreview").src = URL.createObjectURL(file);
+                $("profilePreview").classList.remove("hidden");
+                $("profilePlaceholder").classList.add("hidden");
+            }
+        });
+    }
+}
+
+// PEOPLE AND PLACES
+async function addMemory(type) {
+    const people = type === "people";
+    const name = $(people ? "personName":"placeName").value.trim();
+    const note = $(people ? "personNote":"placeNote").value.trim();
+    const input = $(people ? "personPhoto":"placePhoto");
+
+    if(!name) return alert("Please enter a name first ♡");
+
+    try {
+        let photoId = null;
+        if(input.files[0]) photoId = await savePhoto(input.files[0]);
+
+        data[type].push({id:Date.now(),name,note,photoId});
+        saveData(type);
+        renderMemory(type);
+
+        $(people ? "personName":"placeName").value = "";
+        $(people ? "personNote":"placeNote").value = "";
+        input.value = "";
+    } catch(error) {
+        alert("Couldn't save this memory.");
+    }
+}
+
+async function renderMemory(type) {
+    const container = $(type === "people" ? "peopleList":"placesList");
+    container.innerHTML = "";
+
+    for(const item of data[type]) {
+        const card = document.createElement("article");
+        card.className = "memory-card";
+
+        if(item.photoId) {
+            const file = await getPhoto(item.photoId);
+            if(file) {
+                const img = document.createElement("img");
+                img.src = URL.createObjectURL(file);
+                card.appendChild(img);
+            }
+        }
+
+        const title = document.createElement("h3");
+        title.textContent = item.name;
+
+        const note = document.createElement("p");
+        note.textContent = item.note;
+
+        const remove = document.createElement("button");
+        remove.className = "delete-btn";
+        remove.textContent = "Remove ♡";
+        remove.onclick = () => removeMemory(type,item.id);
+
+        card.append(title,note,remove);
+        container.appendChild(card);
+    }
+}
+
+function removeMemory(type,id) {
+    if(!confirm("Are you sure you want to remove this memory?")) return;
+
+    const item = data[type].find(x => x.id === id);
+    if(item?.photoId) deletePhoto(item.photoId);
+
+    data[type] = data[type].filter(x => x.id !== id);
+    saveData(type);
+    renderMemory(type);
+}
+
+// MOMENTS
+function addMoment() {
+    const title = $("momentTitle").value.trim();
+    const text = $("momentText").value.trim();
+
+    if(!title || !text) return alert("Write a title and memory first ♡");
+
+    data.moments.unshift({
+        id:Date.now(),
+        title,
+        text,
+        date:$("momentDate").value,
+        mood:$("momentMood").value
+    });
+
+    saveData("moments");
+    renderMoments();
+    $("momentTitle").value = "";
+    $("momentText").value = "";
+}
+
+function renderMoments() {
+    const list = $("momentsList");
+    list.innerHTML = "";
+
+    data.moments.forEach(item => {
+        const entry = document.createElement("article");
+        entry.className = "journal-entry";
+
+        const title = document.createElement("h3");
+        title.textContent = item.title;
+
+        const meta = document.createElement("small");
+        meta.textContent = `${item.date || "No date"} · ${item.mood}`;
+
+        const text = document.createElement("p");
+        text.textContent = item.text;
+
+        const remove = document.createElement("button");
+        remove.className = "delete-btn";
+        remove.textContent = "Delete memory";
+        remove.onclick = () => {
+            if(!confirm("Delete this diary entry?")) return;
+            data.moments = data.moments.filter(x => x.id !== item.id);
+            saveData("moments");
+            renderMoments();
+        };
+
+        entry.append(title,meta,text,remove);
+        list.appendChild(entry);
+    });
+}
+
+// PHOTO ALBUM
+async function uploadAlbum(event) {
+    try {
+        for(const file of [...event.target.files]) {
+            if(!file.type.startsWith("image/")) continue;
+
+            const id = await savePhoto(file);
+            data.album.push({
+                id:Date.now()+Math.random(),
+                photoId:id,
+                caption:file.name
+            });
+        }
+
+        saveData("album");
+        renderAlbum();
+    } catch(error) {
+        alert("Some photos couldn't be saved.");
+    }
+
+    event.target.value = "";
+}
+
+async function renderAlbum() {
+    const grid = $("albumGrid");
+    grid.innerHTML = "";
+
+    for(const item of data.album) {
+        const file = await getPhoto(item.photoId);
+        if(!file) continue;
+
+        const card = document.createElement("div");
+        card.className = "album-item";
+
+        const img = document.createElement("img");
+        img.src = URL.createObjectURL(file);
+
+        const caption = document.createElement("p");
+        caption.textContent = item.caption;
+
+        const remove = document.createElement("button");
+        remove.className = "delete-btn";
+        remove.textContent = "Remove ♡";
+        remove.onclick = () => {
+            if(!confirm("Remove this photograph?")) return;
+            deletePhoto(item.photoId);
+            data.album = data.album.filter(x => x.id !== item.id);
+            saveData("album");
+            renderAlbum();
+        };
+
+        card.append(img,caption,remove);
+        grid.appendChild(card);
+    }
+}
+
+// DREAM BOARD
+function addDream() {
+    const dream = $("dreamText").value.trim();
+    if(!dream) return;
+
+    data.dreams.push({id:Date.now(),text:dream});
+    $("dreamText").value = "";
+    saveData("dreams");
+    renderDreams();
+}
+
+function renderDreams() {
+    const list = $("dreamList");
+    list.innerHTML = "";
+
+    data.dreams.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "dream-card";
+
+        const text = document.createElement("p");
+        text.textContent = "☆ "+item.text;
+
+        const remove = document.createElement("button");
+        remove.className = "delete-btn";
+        remove.textContent = "Remove";
+        remove.onclick = () => {
+            if(!confirm("Remove this dream?")) return;
+            data.dreams = data.dreams.filter(x => x.id !== item.id);
+            saveData("dreams");
+            renderDreams();
+        };
+
+        card.append(text,remove);
+        list.appendChild(card);
+    });
+}
+
+function renderAll() {
+    renderMemory("people");
+    renderMemory("places");
+    renderMoments();
+    renderAlbum();
+    renderDreams();
+}
+
+// INITIALIZE
+document.addEventListener("DOMContentLoaded",async () => {
+    try {
+        await openDatabase();
+    } catch(error) {
+        console.error(error);
+        alert("Your browser could not open the photo database.");
+    }
+
+    $("momentDate").value = new Date().toISOString().slice(0,10);
+});
+</script>
+
+</body>
+</html>
